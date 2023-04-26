@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="stylesheet" href="./style/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <title>Memory game</title>
+</head>
+<body>
+  <div class="border-setup">
+    <h2>Memory Game</h2>
+    <div class="new-game-form">  
+      <form class="selectTheme">
+          <p>Select Theme</p>
+          <button type="button" class="btn btn-setup" value="1">Numbers</button>
+          <button type="button" class="btn btn-setup" value="2">Icons</button>
+      </form>
+  
+      <form class="noOfPlayers">
+          <p>Number of players</p>
+          <button type="button" class="btn btn-numbers" value="1">1</button>
+          <button type="button" class="btn btn-numbers" value="2">2</button>
+          <button type="button" class="btn btn-numbers" value="3">3</button>
+          <button type="button" class="btn btn-numbers" value="4">4</button>
+      </form>
+  
+      <form class="layout">
+          <p>Layout</p>
+          <button type="button" class="btn btn-setup" value="1">4x4</button>
+          <button type="button" class="btn btn-setup" value="2">6x6</button>
+      </form>
+
+      <button type="submit" class="btn btn-submit">Play</button>
+    </div> 
+    <span></span>
+  </div>
+  
+
+  <div class="container">   <!-- container -->
+    <div class="border-game">         <!-- border -->
+      <div class="topline">
+        <h2>Memory Game</h2>
+        <div class="topline-buttons">
+          <button type="button" class="btn restart">Restart</button>
+          <button type="button" class="btn newGameButton">New Game</button>
+        </div>
+      </div>
+
+      <!-- Game Grid -->
+      <div class="game-card">    <!-- game-card -->
+        <div class="card-4by4">
+          <div cellIndex="0" class="circle"></div>
+          <div cellIndex="1" class="circle"></div>
+          <div cellIndex="2" class="circle"></div>
+          <div cellIndex="2" class="circle"></div>
+          <div cellIndex="3" class="circle"></div>
+          <div cellIndex="3" class="circle"></div>
+          <div cellIndex="4" class="circle"></div>
+          <div cellIndex="4" class="circle"></div>
+          <div cellIndex="8" class="circle"></div>
+          <div cellIndex="9" class="circle"></div>
+          <div cellIndex="10" class="circle"></div>
+          <div cellIndex="11" class="circle"></div>
+          <div cellIndex="12" class="circle"></div>
+          <div cellIndex="13" class="circle"></div>
+          <div cellIndex="14" class="circle"></div>
+          <div cellIndex="15" class="circle"></div>
+        </div>
+        <div class="card-6by6">
+          <div cellIndex="0" class="circle"></div>
+          <div cellIndex="1" class="circle"></div>
+          <div cellIndex="2" class="circle"></div>
+          <div cellIndex="3" class="circle"></div>
+          <div cellIndex="4" class="circle"></div>
+          <div cellIndex="5" class="circle"></div>
+          <div cellIndex="6" class="circle"></div>
+          <div cellIndex="7" class="circle"></div>
+          <div cellIndex="8" class="circle"></div>
+          <div cellIndex="9" class="circle"></div>
+          <div cellIndex="10" class="circle"></div>
+          <div cellIndex="11" class="circle"></div>
+          <div cellIndex="12" class="circle"></div>
+          <div cellIndex="13" class="circle"></div>
+          <div cellIndex="14" class="circle"></div>
+          <div cellIndex="15" class="circle"></div>
+          <div cellIndex="16" class="circle"></div>
+          <div cellIndex="17" class="circle"></div>
+          <div cellIndex="18" class="circle"></div>
+          <div cellIndex="19" class="circle"></div>
+          <div cellIndex="20" class="circle"></div>
+          <div cellIndex="21" class="circle"></div>
+          <div cellIndex="22" class="circle"></div>
+          <div cellIndex="23" class="circle"></div>
+          <div cellIndex="24" class="circle"></div>
+          <div cellIndex="25" class="circle"></div>
+          <div cellIndex="26" class="circle"></div>
+          <div cellIndex="27" class="circle"></div>
+          <div cellIndex="28" class="circle"></div>
+          <div cellIndex="29" class="circle"></div>
+          <div cellIndex="30" class="circle"></div>
+          <div cellIndex="31" class="circle"></div>
+          <div cellIndex="32" class="circle"></div>
+          <div cellIndex="33" class="circle"></div>
+          <div cellIndex="34" class="circle"></div>
+          <div cellIndex="35" class="circle"></div>
+        </div>
+
+        <div class="score-segment">
+          <div class="player1-card score-card current">
+            <p>Player 1</p>
+            <span>0</span>
+          </div>
+          <div class="player2-card score-card hidden" >
+            <p>Player 2</p>
+            <span>0</span>
+          </div>
+          <div class="player3-card score-card hidden">
+            <p>Player 3</p>
+            <span>0</span>
+          </div>
+          <div class="player4-card score-card hidden">
+            <p>Player 4</p>
+            <span>0</span>
+          </div>
+          <button type="button" class="btn btn-end">End</button>
+        </div>
+      </div>   <!-- game-card -->
+      <div class="winnerTag"></div>
+    </div>  <!-- border -->
+  </div>   <!-- container -->
+  
+  <script type="module" src="./JavaScript/index.js"></script>
+
+</body>
+</html>
