@@ -55,8 +55,15 @@ playButton.addEventListener("click", function () {
     players = gameSettings.noOfPlayers;
     grid = gameSettings.layout;
 
-    gameInstance = new GameConsole(card, theme, players, grid);
-    gameInstance.initialize();
+    if(grid == "2"){
+      gameInstance = new GameConsole(card, theme, players, grid);
+      gameInstance.initialize();
+      gameInstance.reduceCircleSize();
+    } else{
+      gameInstance = new GameConsole(card, theme, players, grid);
+      gameInstance.initialize();
+    }
+
     newGameFormBorder.style.display = "none";
     gameContainer.style.display = "block";
   } else {

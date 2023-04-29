@@ -10,12 +10,13 @@ body{
 
 h2{
     margin-top: 0;
+    font-size: 1.2em;
 }
 
 .border-setup h2{
     letter-spacing: 8px;
     text-transform: uppercase;
-    margin-left: 0.7em;
+    margin-left: 0.3em;
 }
 
 .border-setup span{
@@ -27,29 +28,34 @@ h2{
 /* ========================================== */
 
 .container{
-    max-width:700px;
-    /* height: 100vh; */
+    width: 400px;
+    max-width:100%;
+    /* height: 442.52vh; */
     font-size: 1rem;
     color: white;
     /* margin: 0 auto; */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* flex-direction: column; */
+    justify-content: flex-end;
     align-items: center;
     display: none;
-    margin-right: 5em; 
+    /* margin-right: 1em;  */
 }
 
 .border-game{
-    width: 100%;
+    /* width: 400px; */
     background: rgba(19,75,95,1);
     border-radius: 10%;
-    padding: 2.5em;
+    padding: 1em;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-right: 0; */
 }
 
 .border-setup{
-    width: 70%;
+    width: 100%;
     height: 70%;
     background: rgba(19,75,95,1);
     display: flex;
@@ -61,14 +67,23 @@ h2{
 }
 
 .topline{
+    /* max-width: 350px; */
     display: flex;
+    width: 100%;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     margin-bottom: 2em;
+    margin-right: 0;
+    
 }
 
+
+/* .game-card{
+    max-width: 350px;
+} */
+
 .card-4by4{
-    width:330px;
+    /* width:330px; */
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-gap: 1em;
@@ -76,7 +91,7 @@ h2{
 }
 
 .card-6by6{
-    width:400px;
+    /* width:370px; */
     display: none;
     grid-template-columns: repeat(6, auto);
     grid-gap: 1em;
@@ -100,8 +115,12 @@ h2{
 }
 
 .score-segment{
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
     margin-top: 4em;
     margin-bottom: 2em;
     text-align: center;
@@ -130,7 +149,7 @@ h2{
     color: rgba(19,75,95, 0.7);
     font-weight: bolder;
     border-radius: 10px;
-    width: 300px;
+    max-width: 330px;
     padding: 1em;
     margin: 0 auto;
 }
@@ -150,6 +169,7 @@ h2{
     border: none;
     padding: .5em .75em;
     margin-right: 1em;
+    cursor: pointer;
 }
 
 .btn-setup,
@@ -173,6 +193,11 @@ h2{
 .btn:active{
     transform: scale(1.2);
 }
+
+/* .topline .btn{
+    transform: scale(0.7);
+    margin: 0;
+} */
 
 .selected{
     background:  rgba(19,75,95,1);
@@ -211,8 +236,12 @@ i{
     /* font-weight: bolder; */
 }
 
-/* @media (min-width: 600px){
+@media (min-width: 600px){
+
+    .border-setup{
+        width: 70%;
+    }
 
 
     
-} */
+}

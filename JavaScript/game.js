@@ -210,6 +210,15 @@ class Game {
     this.seconds = ((elapsedTime % 60000) / 1000).toFixed(0).padStart(2, "0");
   }
 
+  reduceCircleSize(){
+    const circles = document.querySelectorAll(".circle")
+
+    circles.forEach(circle => {
+      circle.style.width = "45px";
+      circle.style.height = "45px";
+    });
+  }
+
   checkWinner(grid) {
     let noOfCircles = 0;
     let circlesPicked = 0;
