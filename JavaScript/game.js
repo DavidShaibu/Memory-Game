@@ -61,10 +61,10 @@ class Game {
       gridType = { number: 36, selector: ".card-6by6 .circle" };
       this.changeDisplayGrid(grid);
     }
-    const div = this.card.querySelectorAll(gridType.selector);
-
+    
     // Loop through all div elements
     // give each div an attribute id of type "number"
+    const div = this.card.querySelectorAll(gridType.selector);
     for (let number = 0; number < `${gridType.number}`; number++) {
       if (number < `${gridType.number / 2}`) {
         div[number].setAttribute("id", number);
@@ -253,16 +253,16 @@ class Game {
         winnerSpan.innerHTML = `
         <span class="green">Good Job! You earned ${
           this.scoreSheet[winner - 1].score
-        } points.
-        Highlights: { ${this.scoreSheet[winner - 1].moves} moves in ${
+        } points.</span><br>
+        <span class="green">Highlights: { ${this.scoreSheet[winner - 1].moves} moves, ${
           this.minutes
         } min ${this.seconds} secs }</span>
         `;
       } else if (winner.length == 1 && this.noOfPlayers != 1) {
         this.getElapsedTime();
         winnerSpan.innerHTML = `
-        <span class="green">Player ${winner} wins. 
-        Highlights: { ${this.scoreSheet[winner - 1].score} points, 
+        <span class="green">Player ${winner} wins!</span><br> 
+        <span class="green">Highlights: { ${this.scoreSheet[winner - 1].score} points, 
                             ${this.scoreSheet[winner - 1].moves} moves, 
                             ${this.minutes} min ${this.seconds} secs }</span>
         `;
@@ -270,7 +270,8 @@ class Game {
         this.getElapsedTime();
         winnerSpan.innerHTML = `
         <span class="draw">Draw!!!</span>
-        <span>Players ${winner} tied. Highlights: { ${highestScore} points, ${this.minutes} min ${this.seconds} secs}</span>`;
+        <span class="green">Players ${winner} tied.</span><br> 
+        <span class="green">Highlights: { ${highestScore} points, ${this.minutes} min ${this.seconds} secs}</span>`;
       }
     }
   }
