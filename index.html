@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./style/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <title>Memory game</title>
+  <script type="module" src="./JavaScript/index.js"></script>
 </head>
 <body>
   <div class="border-setup">
@@ -43,9 +44,12 @@
       <div class="topline">
         <h2>Memory Game</h2>
         <div class="topline-buttons">
-          <button type="button" class="btn restart">Restart</button>
+          <button type="button" class="btn restart orange">Restart</button>
           <button type="button" class="btn newGameButton">New Game</button>
         </div>
+      </div>
+      <div class="bestPerformance">
+        <p class="memoryGameBestTime">Best Time: 0:59</p>
       </div>
 
       <!-- Game Grid -->
@@ -107,6 +111,7 @@
           <div cellIndex="35" class="circle"></div>
         </div>
       </div>   <!-- game-card -->
+      <div class="winnerTag"></div>
       <div class="score-segment">
         <div class="player1-card score-card current">
           <p>Player 1</p>
@@ -124,13 +129,9 @@
           <p>Player 4</p>
           <span>0</span>
         </div>
+        <button type="button" class="btn btn-end">End</button>
       </div>
-      <button type="button" class="btn btn-end">End</button>
-      <div class="winnerTag"></div>
     </div>  <!-- border -->
   </div>   <!-- container -->
-  
-  <script type="module" src="./JavaScript/index.js"></script>
-
 </body>
 </html>

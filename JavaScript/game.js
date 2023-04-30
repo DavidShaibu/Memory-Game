@@ -24,6 +24,8 @@ class Game {
     this.startTime = 0;
     this.minutes;
     this.seconds;
+    this.bestTime4by4 = 59;
+    this.bestTime6by6 = 59;
   }
 
   initialize() {
@@ -36,6 +38,16 @@ class Game {
       div.classList.remove("win");
       div.style.cursor = "pointer";
     });
+    if(localStorage.getItem("bestTime4by4")){
+      this.bestTime4by4 = localStorage.getItem("bestTime4by4");
+    }
+    if(localStorage.getItem("bestTime6by6")){
+      this.bestTime6by6 = localStorage.getItem("bestTime6by6");
+    }
+
+    // set the HTML of the best time
+    const memoryGameBestTime = document.querySelector(".memoryGameBestTime");
+    memoryGameBestTime.innerHTML = `Best Time: 0:${this.bestTime4by4}`;
   }
 
   circleEventListener(event) {
@@ -146,9 +158,9 @@ class Game {
 
     // setTimeOut if the cell hasn't been won
     if (!circle.classList.contains("win")) {
-      this.timerID = setTimeout(function () {
+      this.timerID = setTimeout( ()=> {
         circle.innerHTML = "";
-      }, 350);
+      }, 200);
     }
   }
 
@@ -219,6 +231,27 @@ class Game {
     });
   }
 
+  updateBestTime(bestTime){
+    const memoryGameBestTime = document.querySelector(".memoryGameBestTime");
+    
+    memoryGameBestTime.innerHTML = `Best Time: ${this.minutes}:${this.seconds}`
+    // console.log(memoryGameBestTime.style.visibility);
+
+    // memoryGameBestTime.style.color = "#white";
+
+    // set the interval to toggle the visibility every 500ms
+    let count = 0;
+    const interval = setInterval(() => {
+    memoryGameBestTime.style.visibility = (memoryGameBestTime.style.visibility === "visible") ? "hidden" : "visible";
+    count++;
+    console.log(count);
+
+    if(count >= 5){
+      clearInterval(interval);
+    }
+    }, 500);
+  }
+
   checkWinner(grid) {
     let noOfCircles = 0;
     let circlesPicked = 0;
@@ -228,6 +261,9 @@ class Game {
     const circles = this.card.querySelectorAll(".circle");
     const winnerSpan = document.querySelector(".winnerTag");
     const end = document.querySelector(".btn-end");
+    
+
+
 
     if (grid == 1) {
       noOfCircles = 16;
@@ -250,6 +286,9 @@ class Game {
 
       if (winner.length == 1 && this.noOfPlayers == 1) {
         this.getElapsedTime();
+        let currentTime = (Number(this.minutes) * 60) + Number(this.seconds);
+        console.log("seconds", typeof Number(this.seconds))
+        console.log("minutes", typeof this.minutes)
         winnerSpan.innerHTML = `
         <span class="green">Good Job! You earned ${
           this.scoreSheet[winner - 1].score
@@ -258,6 +297,12 @@ class Game {
           this.minutes
         } min ${this.seconds} secs }</span>
         `;
+        console.log("BestTime:", this.bestTime4by4);
+        console.log("CurrentTime:", currentTime);
+        if(currentTime < this.bestTime4by4){
+          this.updateBestTime(currentTime);
+          localStorage.setItem("bestTime4by4", currentTime);
+        }
       } else if (winner.length == 1 && this.noOfPlayers != 1) {
         this.getElapsedTime();
         winnerSpan.innerHTML = `
