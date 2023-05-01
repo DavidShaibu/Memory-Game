@@ -340,7 +340,7 @@ class Game {
 
     setTimeout(() => {
       winnerSpan.innerHTML = "";
-    }, 3000)
+    }, 7000)
 
     // Ensure current time is same accros board
     const currentTime = document.querySelector(".current-time p");
