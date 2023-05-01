@@ -45,16 +45,16 @@ class Game {
     if(localStorage.getItem("bestTime4by4")){
       this.bestTime4by4 = localStorage.getItem("bestTime4by4");
     }
-    if(localStorage.getItem("bestTime6by6")){
-      this.bestTime6by6 = localStorage.getItem("bestTime6by6");
-    }
 
     // set the HTML of the best time
     const memoryGameBestTime = document.querySelector(".memoryGameBestTime");
     if(this.noOfPlayers == "1" && this.layout == "1"){
       memoryGameBestTime.innerHTML = `Best Time: 00:${this.bestTime4by4}`;
     } else if(this.noOfPlayers == "1" && this.layout == "2"){
-      this.bestTime6by6 = JSON.parse(this.bestTime6by6)
+      if(localStorage.getItem("bestTime6by6")){
+        this.bestTime6by6 = localStorage.getItem("bestTime6by6");
+        this.bestTime6by6 = JSON.parse(this.bestTime6by6);
+      }
       memoryGameBestTime.innerHTML = `Best Time: ${this.bestTime6by6.minutes}:${this.bestTime6by6.seconds}`;
     } else{
       memoryGameBestTime.innerHTML = "";
