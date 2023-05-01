@@ -83,6 +83,7 @@ restart.addEventListener("click", () => {
   
   // end old game instance
   gameInstance.endGame();
+  clearInterval(gameInstance.currentTimeInterval)
   winnerSpan.innerHTML = "";
   currentTime.innerHTML = "00:00:00";
 

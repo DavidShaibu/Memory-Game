@@ -231,6 +231,7 @@ class Game {
       this.getElapsedTime();
       const currentTime = document.querySelector(".current-time p");
       currentTime.innerHTML = `${this.hours}:${this.minutes}:${this.seconds}`;
+      currentTime.style.marginTop = "-65%";
     }, 1000);
   }
 
