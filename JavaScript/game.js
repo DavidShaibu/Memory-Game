@@ -22,10 +22,12 @@ class Game {
     this.card.addEventListener("click", this.circleEventListener);
     this.isFirstClick = true;
     this.startTime = 0;
+    this.hours
     this.minutes;
     this.seconds;
     this.bestTime4by4 = 59;
     this.bestTime6by6 = 59;
+    this.currentTimeInterval;
   }
 
   initialize() {
@@ -57,6 +59,7 @@ class Game {
       this.getValue(icon, event.target);
       this.startTime = Date.now();
       this.isFirstClick = false;
+      this.displayCurrentTime();
     } else if (event.target.classList.contains("circle")) {
       const icon = event.target.getAttribute("id");
       this.displayIcon(event.target, icon);
@@ -218,8 +221,17 @@ class Game {
 
   getElapsedTime() {
     const elapsedTime = Date.now() - this.startTime;
-    this.minutes = Math.floor(elapsedTime / 60000); // 1 minute = 60,000ms
+    this.hours = Math.floor(elapsedTime / 3600000).toFixed(0).padStart(2, "0");; // 1 hour = 3,600,000ms
+    this.minutes = Math.floor(elapsedTime / 60000).toFixed(0).padStart(2, "0"); // 1 minute = 60,000ms
     this.seconds = ((elapsedTime % 60000) / 1000).toFixed(0).padStart(2, "0");
+  }
+
+  displayCurrentTime() {
+    this.currentTimeInterval = setInterval(() => {
+      this.getElapsedTime();
+      const currentTime = document.querySelector(".current-time p");
+      currentTime.innerHTML = `${this.hours}:${this.minutes}:${this.seconds}`;
+    }, 1000);
   }
 
   reduceCircleSize(){
@@ -244,9 +256,8 @@ class Game {
     const interval = setInterval(() => {
     memoryGameBestTime.style.visibility = (memoryGameBestTime.style.visibility === "visible") ? "hidden" : "visible";
     count++;
-    console.log(count);
 
-    if(count >= 5){
+    if(count >= 7){
       clearInterval(interval);
     }
     }, 500);
@@ -277,6 +288,10 @@ class Game {
       }
     });
     if (circlesPicked == noOfCircles || this.status == "end") {
+
+      //End the current time 
+      clearInterval(this.currentTimeInterval);
+
       // get the highest scorer(s)
       this.scoreSheet.forEach((player) => {
         if (player.score == highestScore) {
@@ -287,8 +302,8 @@ class Game {
       if (winner.length == 1 && this.noOfPlayers == 1) {
         this.getElapsedTime();
         let currentTime = (Number(this.minutes) * 60) + Number(this.seconds);
-        console.log("seconds", typeof Number(this.seconds))
-        console.log("minutes", typeof this.minutes)
+        // console.log("seconds", typeof Number(this.seconds))
+        // console.log("minutes", typeof this.minutes)
         winnerSpan.innerHTML = `
         <span class="green">Good Job! You earned ${
           this.scoreSheet[winner - 1].score
@@ -297,8 +312,8 @@ class Game {
           this.minutes
         } min ${this.seconds} secs }</span>
         `;
-        console.log("BestTime:", this.bestTime4by4);
-        console.log("CurrentTime:", currentTime);
+        // console.log("BestTime:", this.bestTime4by4);
+        // console.log("CurrentTime:", currentTime);
         if(currentTime < this.bestTime4by4){
           this.updateBestTime(currentTime);
           localStorage.setItem("bestTime4by4", currentTime);

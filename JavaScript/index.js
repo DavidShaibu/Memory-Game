@@ -79,10 +79,12 @@ playButton.addEventListener("click", function () {
 restart.addEventListener("click", () => {
   const scoreGrid = document.querySelector(".score-segment");
   const scoreGridArray = Array.from(scoreGrid.children);
+  const currentTime = document.querySelector(".current-time p");
   
   // end old game instance
   gameInstance.endGame();
   winnerSpan.innerHTML = "";
+  currentTime.innerHTML = "00:00:00";
 
   scoreGridArray.forEach((grid) => {
     if (grid.tagName == "DIV") {
@@ -103,5 +105,6 @@ newGameButton.addEventListener("click", function () {
 
 end.addEventListener("click", () => {
   gameInstance.status = "end";
+  clearInterval(gameInstance.currentTimeInterval);
   gameInstance.endGame();
 });

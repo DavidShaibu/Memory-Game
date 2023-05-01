@@ -26,17 +26,30 @@ h2{
     margin-top: 1em;
 }
 
+/* .topline h2{
+    font-family: 'Orbitron', sans-serif;
+} */
+
 .bestPerformance{
     align-self: flex-start;
+    color: rgba(255, 255, 255, .8);
+    font-size: .9em; 
 }
 
 .memoryGameBestTime{
-    width: 100%;
-    margin-top: -70%;
-    color: #ebebeb;
-    /* margin-right: -1.5em; */
+    margin-top: -21%;
+}
+
+.current-time{
+    align-self: flex-end;
+    color: rgba(255, 255, 255, .8);
     font-size: 0.9em; 
-    margin-left: 0;
+    margin-right: .8em;
+}
+
+.current-time p{
+    margin: 0;
+    margin-top: -60%;
 }
 
 script{
@@ -54,6 +67,7 @@ script{
     color: white;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     display: none;
 }
 
@@ -82,16 +96,17 @@ script{
 .topline{
     display: flex;
     width: 100%;
+    /* max-width: 450px; */
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 4em;
+    margin-bottom: 1.5em;
     margin-right: 0;
     
 }
 
-/* .game-card{
-    margin
-} */
+.game-card{
+    margin-top: 2em;
+}
 
 .card-4by4{
     display: grid;
@@ -128,15 +143,16 @@ script{
     color: black;
     border-radius: 10px;
     margin: 1em 0;
-    width: 330px;
-    margin-top: 4em;
+    width: 370px;
+    margin-top: 2em;
+    margin-bottom: .5em;
 }
 
 .score-segment{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
-    margin-top: 1em;
+    grid-gap: .5em;
+    margin-top: .5em;
     margin-bottom: 2em;
     text-align: center;
 }
@@ -209,6 +225,10 @@ script{
     transform: scale(1.2);
 }
 
+/* .btn-end{
+    margin-left: auto;
+} */
+
 /* ========================================== */
                 /* General */
 /* ========================================== */
@@ -249,7 +269,7 @@ i{
 /* ========================================== */
 
 
-@media (min-width: 660px){
+@media (min-width: 680px){
 
     .border-setup{
         max-width: 70%;
@@ -260,23 +280,76 @@ i{
 
     .container{
         width: 70%;
-        height: 100vh;
+        height: 90vh;
     }
 
     .border-game{
         /* width: 93%; */
-        /* height: 100; */
+        /* max-height: 90%; */
         padding: 3em;
         border-radius: 10%;
     }
 
+    .game-card{
+        margin-top: 0;
+    }
 }
 
 
+@media (min-width: 680px) and (max-width: 1050px) {
+    
+    .score-segment{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  
 @media (min-width: 1050px){
-
     .score-segment{
         display: flex;
     }
+}
+
+@media (max-height: 600px){
+
+    .container{
+        height: 100vh;
+    }  
+
+    .border-game{
+        padding: 1.5em;
+    }
+
+    .topline{
+        margin-bottom: 1em;
+    }
+
+    .winnerTag{
+        margin-top: 1em;
+    }
+    .score-segment{
+        display: flex;
+    }
+}
+
+@media (min-height: 600px) and (max-height: 720px){
+
+    .game-card{
+        margin-top: 0;
+    }    
+    .winnerTag{
+        margin-top: .75em;
+    }
+}
+
+@media (min-height: 1000px){
+
+    .game-card{
+        margin-top: 6em;
+        margin-bottom: 3em;
+    }   
+    .winnerTag{
+        margin-bottom: 2em;
+    }
+
 }
 
