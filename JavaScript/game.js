@@ -26,7 +26,7 @@ class Game {
     this.minutes;
     this.seconds;
     this.bestTime4by4 = 59;
-    this.bestTime6by6 = 59;
+    this.bestTime6by6 = {minutes:2, seconds:59};
     this.currentTimeInterval;
   }
 
@@ -40,6 +40,8 @@ class Game {
       div.classList.remove("win");
       div.style.cursor = "pointer";
     });
+
+    // check localStorage for best scores
     if(localStorage.getItem("bestTime4by4")){
       this.bestTime4by4 = localStorage.getItem("bestTime4by4");
     }
@@ -49,7 +51,24 @@ class Game {
 
     // set the HTML of the best time
     const memoryGameBestTime = document.querySelector(".memoryGameBestTime");
-    memoryGameBestTime.innerHTML = `Best Time: 0:${this.bestTime4by4}`;
+    if(this.noOfPlayers == "1" && this.layout == "1"){
+      memoryGameBestTime.innerHTML = `Best Time: 00:${this.bestTime4by4}`;
+    } else if(this.noOfPlayers == "1" && this.layout == "2"){
+      this.bestTime6by6 = JSON.parse(this.bestTime6by6)
+      memoryGameBestTime.innerHTML = `Best Time: ${this.bestTime6by6.minutes}:${this.bestTime6by6.seconds}`;
+    } else{
+      memoryGameBestTime.innerHTML = "";
+    }
+
+    //add margins to the display when there's space for it
+    if(this.noOfPlayers < 3 && this.layout == "1"){
+      this.addMargins();
+    }
+  }
+
+  addMargins(){
+    const gameCard = document.querySelector(".game-card");
+    gameCard.style.margin = "2em 0 4em 0";
   }
 
   circleEventListener(event) {
@@ -177,11 +196,15 @@ class Game {
       this.selectedCircle.push(icon);
     }
     if (this.selectedCircle.length == 2) {
-      let store = this.selectedCircle;
-      this.checkPoint(store, icon);
+      this.checkPoint(this.selectedCircle, icon);
       this.updateScoreSheet();
       this.changePlayer();
-      this.selectedCircle = [];
+
+      // delete the selectedCircle store if multi-player
+      if(this.noOfPlayers != "1"){
+        this.selectedCircle = [];
+      }
+      
     }
     this.previouslySelected = cellClicked;
   }
@@ -204,9 +227,13 @@ class Game {
           div.classList.add("win");
         }
       });
-      //
+
+      //clear timeout and delete the selectedCircle store for single player
       clearTimeout(this.timerID);
-    }
+      this.selectedCircle = [];
+    } else if (this.noOfPlayers == "1"){
+      this.selectedCircle.shift();
+    };
   }
 
   updateScoreSheet() {
@@ -221,7 +248,7 @@ class Game {
 
   getElapsedTime() {
     const elapsedTime = Date.now() - this.startTime;
-    this.hours = Math.floor(elapsedTime / 3600000).toFixed(0).padStart(2, "0");; // 1 hour = 3,600,000ms
+    this.hours = Math.floor(elapsedTime / 3600000).toFixed(0).padStart(2, "0"); // 1 hour = 3,600,000ms
     this.minutes = Math.floor(elapsedTime / 60000).toFixed(0).padStart(2, "0"); // 1 minute = 60,000ms
     this.seconds = ((elapsedTime % 60000) / 1000).toFixed(0).padStart(2, "0");
   }
@@ -231,7 +258,6 @@ class Game {
       this.getElapsedTime();
       const currentTime = document.querySelector(".current-time p");
       currentTime.innerHTML = `${this.hours}:${this.minutes}:${this.seconds}`;
-      currentTime.style.marginTop = "-65%";
     }, 1000);
   }
 
@@ -264,34 +290,89 @@ class Game {
     }, 500);
   }
 
+  displayWinner(winner, highestScore){
+    const winnerSpan = document.querySelector(".winnerTag");
+    if (winner.length == 1 && this.noOfPlayers == 1) {
+      this.getElapsedTime();
+      let currentTime = (Number(this.minutes) * 60) + Number(this.seconds);
+      let time6by6InSeconds = (Number(this.bestTime6by6.minutes * 60) + Number(this.bestTime6by6.seconds));
+
+      console.log("currentTime", currentTime, typeof currentTime)
+      console.log("time6by6InSeconds", time6by6InSeconds, typeof time6by6InSeconds);
+
+      winnerSpan.innerHTML = `
+      <span class="green">Good Job! You earned ${
+        this.scoreSheet[winner - 1].score
+      } points.</span><br>
+      <span class="green">Highlights: { ${this.scoreSheet[winner - 1].moves} moves, ${
+        this.minutes
+      } min ${this.seconds} secs }</span>
+      `;
+      // console.log("BestTime:", this.bestTime4by4);
+      // console.log("CurrentTime:", currentTime);
+
+      // set the localStorage for the best time
+      if(currentTime < this.bestTime4by4 && this.layout == "1"){
+        this.updateBestTime(currentTime);
+        localStorage.setItem("bestTime4by4", currentTime);
+      }
+      if(currentTime < time6by6InSeconds && this.layout == "2"){
+        this.updateBestTime(currentTime);
+        const newBestTime = {minutes: this.minutes, seconds: this.seconds};
+        localStorage.setItem("bestTime6by6", JSON.stringify(newBestTime));
+      }
+
+    } else if (winner.length == 1 && this.noOfPlayers != 1) {
+      this.getElapsedTime();
+      winnerSpan.innerHTML = `
+      <span class="green">Player ${winner} wins!</span><br> 
+      <span class="green">Highlights: { ${this.scoreSheet[winner - 1].score} points, 
+                          ${this.scoreSheet[winner - 1].moves} moves, 
+                          ${this.minutes} min ${this.seconds} secs }</span>
+      `;
+    } else if (winner.length > 1) {
+      this.getElapsedTime();
+      winnerSpan.innerHTML = `
+      <span class="draw">Draw!!!</span>
+      <span>Players ${winner} tied.</span><br> 
+      <span>Highlights: { ${highestScore} points, ${this.minutes} min ${this.seconds} secs}</span>`;
+    }
+
+    setTimeout(() => {
+      winnerSpan.innerHTML = "";
+    }, 3000)
+
+    // Ensure current time is same accros board
+    const currentTime = document.querySelector(".current-time p");
+    currentTime.innerHTML = `${this.hours}:${this.minutes}:${this.seconds}`;
+  };
+
   checkWinner(grid) {
+    const scores = this.scoreSheet.map((player) => player.score);
     let noOfCircles = 0;
     let circlesPicked = 0;
-    const scores = this.scoreSheet.map((player) => player.score);
     let highestScore = Math.max(...scores);
     const winner = [];
     const circles = this.card.querySelectorAll(".circle");
-    const winnerSpan = document.querySelector(".winnerTag");
     const end = document.querySelector(".btn-end");
     
-
-
-
     if (grid == 1) {
       noOfCircles = 16;
     } else {
       noOfCircles = 36;
     }
 
+    //count the number of circles selected
     circles.forEach((circle) => {
       if (circle.classList.contains("win")) {
         circlesPicked++;
       }
     });
-    if (circlesPicked == noOfCircles || this.status == "end") {
 
+    if (circlesPicked == noOfCircles || this.status == "end") {
       //End the current time 
       clearInterval(this.currentTimeInterval);
+
 
       // get the highest scorer(s)
       this.scoreSheet.forEach((player) => {
@@ -300,40 +381,7 @@ class Game {
         }
       });
 
-      if (winner.length == 1 && this.noOfPlayers == 1) {
-        this.getElapsedTime();
-        let currentTime = (Number(this.minutes) * 60) + Number(this.seconds);
-        // console.log("seconds", typeof Number(this.seconds))
-        // console.log("minutes", typeof this.minutes)
-        winnerSpan.innerHTML = `
-        <span class="green">Good Job! You earned ${
-          this.scoreSheet[winner - 1].score
-        } points.</span><br>
-        <span class="green">Highlights: { ${this.scoreSheet[winner - 1].moves} moves, ${
-          this.minutes
-        } min ${this.seconds} secs }</span>
-        `;
-        // console.log("BestTime:", this.bestTime4by4);
-        // console.log("CurrentTime:", currentTime);
-        if(currentTime < this.bestTime4by4){
-          this.updateBestTime(currentTime);
-          localStorage.setItem("bestTime4by4", currentTime);
-        }
-      } else if (winner.length == 1 && this.noOfPlayers != 1) {
-        this.getElapsedTime();
-        winnerSpan.innerHTML = `
-        <span class="green">Player ${winner} wins!</span><br> 
-        <span class="green">Highlights: { ${this.scoreSheet[winner - 1].score} points, 
-                            ${this.scoreSheet[winner - 1].moves} moves, 
-                            ${this.minutes} min ${this.seconds} secs }</span>
-        `;
-      } else if (winner.length > 1) {
-        this.getElapsedTime();
-        winnerSpan.innerHTML = `
-        <span class="draw">Draw!!!</span>
-        <span class="green">Players ${winner} tied.</span><br> 
-        <span class="green">Highlights: { ${highestScore} points, ${this.minutes} min ${this.seconds} secs}</span>`;
-      }
+      this.displayWinner(winner, highestScore);
     }
   }
 
