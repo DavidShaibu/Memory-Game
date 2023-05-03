@@ -55,7 +55,7 @@ class Game {
         this.bestTime6by6 = localStorage.getItem("bestTime6by6");
         this.bestTime6by6 = JSON.parse(this.bestTime6by6);
       }
-      memoryGameBestTime.innerHTML = `Best Time: ${this.bestTime6by6.minutes}:${this.bestTime6by6.seconds}`;
+      memoryGameBestTime.innerHTML = `Best Time: 0${this.bestTime6by6.minutes}:${this.bestTime6by6.seconds}`;
     } else{
       memoryGameBestTime.innerHTML = "";
     }
